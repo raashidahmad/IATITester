@@ -472,7 +472,7 @@ namespace IATITester.IATILib.IATIVersion2
             }
         }
 
-        /*[XmlIgnore]
+        [XmlIgnore]
         public string Title
         {
             get
@@ -510,7 +510,7 @@ namespace IATITester.IATILib.IATIVersion2
             //    if (reportingorg == null) reportingorg = new reportingorg();
             //    reportingorg.narrative = Statix.getNarativeArray(value);
             //}
-        }*/
+        }
         [XmlIgnore]
         public List<participatingorg> ImplementingOrgs
         {
@@ -867,12 +867,11 @@ namespace IATITester.IATILib.IATIVersion2
         {
             get
             {
-                //return narrative.GetValue();
-                return "";
+                return narrative.GetValue();
             }
             set
             {
-                //narrative = Statix.GetNarrativeList(value);
+                narrative = Statix.GetNarrativeList(value);
             }
         }
 
@@ -930,14 +929,13 @@ namespace IATITester.IATILib.IATIVersion2
         {
             get
             {
-                //return providerorg?.narrative.GetValue();
-                return "";
+                return providerorg?.narrative.GetValue();
             }
             set
             {
                 if (providerorg == null)
                     providerorg = new transactionProviderorg();
-                //providerorg.narrative = Statix.GetNarrativeList(value);
+                providerorg.narrative = Statix.GetNarrativeList(value);
             }
         }
 
@@ -961,14 +959,13 @@ namespace IATITester.IATILib.IATIVersion2
         {
             get
             {
-                //return providerorg?.narrative.GetValue();
-                return "";
+                return providerorg?.narrative.GetValue();
             }
             set
             {
                 if (providerorg == null)
                     providerorg = new planneddisbursementProviderorg();
-                //providerorg.narrative = Statix.GetNarrativeList(value);
+                providerorg.narrative = Statix.GetNarrativeList(value);
             }
         }
 

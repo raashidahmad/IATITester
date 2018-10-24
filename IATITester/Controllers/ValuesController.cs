@@ -6,6 +6,7 @@ using IATITester.IATILib;
 using IATITester.IATILib.IATIVersion1;
 using IATITester.IATILib.IATIVersion2;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace IATITester.Controllers
 {
@@ -15,7 +16,7 @@ namespace IATITester.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult Get()
+        public IActionResult Get()
         {
             string activitiesURL;
             IParserIATI parserIATI;
@@ -24,9 +25,10 @@ namespace IATITester.Controllers
 
             try
             {
-                string country = "SM";
-                string org = "";
+                string country = "BD";
+                string org = "CA-3";
                 activitiesURL = "http://datastore.iatistandard.org/api/1/access/activity.xml?recipient-country=" + country + "&reporting-org=" + org + "&stream=True";
+                //activitiesURL = "http://datastore.iatistandard.org/api/1/access/activity.xml?recipient-country=" + country + "&stream=True";
                 //Parser v2.01
                 parserIATI = new ParserIATIV2();
 
@@ -40,15 +42,17 @@ namespace IATITester.Controllers
                     returnResult1 = (XMLResultVersion1)parserIATI.ParseIATIXML(activitiesURL);
 
                     //Conversion
-                    //ConvertIATIv2 convertIATIv2 = new ConvertIATIv2();
-                    //returnResult2 = convertIATIv2.ConvertIATI105to201XML(returnResult1, returnResult2);
+                    ConvertIATIVersion2 convertIATIv2 = new ConvertIATIVersion2();
+                    returnResult2 = convertIATIv2.ConvertIATI105to201XML(returnResult1, returnResult2);
                 }
             }
             catch (Exception ex)
             {
                 returnResult2.n().Value = ex.Message;
             }
-            return Ok();
+            string jsonStr = JsonConvert.SerializeObject(returnResult2);
+            dynamic json = JsonConvert.DeserializeObject(jsonStr);
+            return Ok(json);
         }
 
         // GET api/values/5
